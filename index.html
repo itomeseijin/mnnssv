@@ -82,10 +82,14 @@
                     <span class="up"></span>
                 </div>
             </div>
+            <p class="left">
+            <font size="1">
             操作方法：<br>
             ・上下キー or 自キャラ周辺の上下をタップ：上下に移動<br>
             ・Aキー or 敵キャラエリアをタップ：歌ってお帰りいただく<br>
             ※スマホの長押しには対応していないので気合いで連打よろです
+            </font>
+            </p>
         </div>
         <script>
             var cvs = document.getElementById("canvas");
@@ -200,7 +204,7 @@
                     
                     
                     //game over
-                    if (mnnPos.x + mnn1.width >= ssvs[i].x + 56 && mnnPos.x <= ssvs[i].x + 56 && (mnnPos.y + mnn1.height >= ssvs[i].y && mnnPos.y <= ssvs[i].y + ssv1.height)) {
+                    if (mnnPos.x + mnn1.width >= ssvs[i].x + 56 && mnnPos.x <= ssvs[i].x + 56 && mnnPos.y + mnn1.height >= ssvs[i].y && mnnPos.y <= ssvs[i].y + ssv1.height - 60) {
                         alert("暴走したセーラーシェーブに触ってしまった。\n倒した数：" + killCnt);
                         console.log("暴走したセーラーシェーブに触ってしまった。\n倒した数：" + killCnt);
                         current = 0;
