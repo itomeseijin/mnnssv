@@ -194,46 +194,8 @@
                 ctx.drawImage(bg,0,0);
 
                 console.log('ssvs.length:' + ssvs.length);
-                for(var i=0 ; i < ssvs.length; i++){
-                    ssvs[i].x = ssvs[i].x - 12;
-                    if (current == 0) { 
-                        ctx.drawImage(ssv1,ssvs[i].x,ssvs[i].y);
-                    } else {
-                        ctx.drawImage(ssv2,ssvs[i].x,ssvs[i].y);
-                    }
-                    
-                    
-                    //game over
-                    if (mnnPos.x + mnn1.width >= ssvs[i].x + 56 && mnnPos.x <= ssvs[i].x + 56 && mnnPos.y + mnn1.height >= ssvs[i].y && mnnPos.y <= ssvs[i].y + ssv1.height - 60) {
-                        alert("暴走したセーラーシェーブに触ってしまった。\n倒した数：" + killCnt);
-                        console.log("暴走したセーラーシェーブに触ってしまった。\n倒した数：" + killCnt);
-                        current = 0;
-                        attackCnt = 0;
-                        mnnPos = {x:20, y:200};
-                        ssvs = [];
-                        ssvs[0] = {
-                            x: cvs.width,
-                            y: Math.floor(Math.random() * 312)
-                        };
-                        ssvEncounter = 20;
-                        
-                        outSsvCnt = 0;
-                        onps = [];
-                        outOnpCnt = 0;
-                        killCnt = 0;
-                        delay = 200;
-                        //setTimeout(draw, 100);
-                    }
-                    
-                    if (ssvs[i].x < -136) {
-                        outSsvCnt += 1;
-                    }
-                }
-                for(var i=0 ; i < outSsvCnt; i++){
-                    ssvs.shift();
-                }
-                outSsvCnt = 0;
-
+                
+                // 音符の処理。キャラとの当たり判定よりも先に実施
                 for(var i=0 ; i < onps.length; i++){
                     ctx.drawImage(onp,onps[i].x,onps[i].y);
                     onps[i].x = onps[i].x + 16;
@@ -249,16 +211,54 @@
                             if (killCnt % 5 == 0) {
                                 delay = Math.floor(delay / 2) + 10;
                             }
-
                         }
-
                     }
                 }
+                // 画面外にいったものは消す
                 for(var i=0 ; i < outOnpCnt; i++){
                     console.log('onpu removed');
                     onps.shift();
                 }
                 outOnpCnt = 0;
+
+                // SSVの処理。当たり判定含む
+                for(var i=0 ; i < ssvs.length; i++){
+                    ssvs[i].x = ssvs[i].x - 12;
+                    if (current == 0) { 
+                        ctx.drawImage(ssv1,ssvs[i].x,ssvs[i].y);
+                    } else {
+                        ctx.drawImage(ssv2,ssvs[i].x,ssvs[i].y);
+                    }
+                        
+                    //game over
+                    if (mnnPos.x + mnn1.width >= ssvs[i].x + 56 && mnnPos.x <= ssvs[i].x + 56 && mnnPos.y + mnn1.height >= ssvs[i].y && mnnPos.y <= ssvs[i].y + ssv1.height - 60) {
+                        alert("あ！　触っちゃった！\n倒した数：" + killCnt);
+                        //console.log("暴走したセーラーシェーブに触ってしまった。\n倒した数：" + killCnt);
+                        current = 0;
+                        attackCnt = 0;
+                        mnnPos = {x:20, y:200};
+                        ssvs = [];
+                        ssvs[0] = {
+                            x: cvs.width,
+                            y: Math.floor(Math.random() * 312)
+                        };
+                        ssvEncounter = 20;
+                        
+                        outSsvCnt = 0;
+                        onps = [];
+                        outOnpCnt = 0;
+                        killCnt = 0;
+                        delay = 200;
+                    }
+                    
+                    if (ssvs[i].x < -136) {
+                        outSsvCnt += 1;
+                    }
+                }
+                for(var i=0 ; i < outSsvCnt; i++){
+                    ssvs.shift();
+                }
+                outSsvCnt = 0;
 
                 if (attackCnt > 0){
                     // Manon sing
@@ -289,7 +289,6 @@
                 //requestAnimationFrame(draw);
                 setTimeout(draw, delay);
             }
-        
             draw();
         </script>
     </body>
